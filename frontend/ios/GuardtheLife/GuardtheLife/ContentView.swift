@@ -1,11 +1,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var isAuthenticated = false
+    @StateObject private var authService = AuthService.shared
+    @StateObject private var locationService = LocationService.shared
+    @StateObject private var socketService = SocketService.shared
+    @StateObject private var notificationService = NotificationService.shared
     @State private var selectedTab = 0
     
     var body: some View {
-        if isAuthenticated {
+        if authService.isAuthenticated {
             TabView(selection: $selectedTab) {
                 HomeView()
                     .tabItem {
@@ -37,7 +40,7 @@ struct ContentView: View {
             }
             .accentColor(.blue)
         } else {
-            LoginView(isAuthenticated: $isAuthenticated)
+            LoginView()
         }
     }
 }
@@ -58,6 +61,7 @@ struct HomeView: View {
                 VStack(spacing: 15) {
                     Button(action: {
                         // Request lifeguard action
+                        locationService.requestLocationPermission()
                     }) {
                         HStack {
                             Image(systemName: "person.2.circle.fill")
@@ -74,6 +78,14 @@ struct HomeView: View {
                     
                     Button(action: {
                         // Emergency action
+                        if let location = locationService.getEmergencyLocation() {
+                            socketService.emitEmergencySignal(location: location, description: "Emergency assistance needed")
+                            notificationService.scheduleEmergencyNotification(
+                                type: .medical,
+                                location: location,
+                                description: "Emergency assistance requested"
+                            )
+                        }
                     }) {
                         HStack {
                             Image(systemName: "exclamationmark.triangle.fill")
@@ -221,9 +233,10 @@ struct ProfileView: View {
 }
 
 struct LoginView: View {
-    @Binding var isAuthenticated: Bool
+    @StateObject private var authService = AuthService.shared
     @State private var email = ""
     @State private var password = ""
+    @State private var showingSignUp = false
     
     var body: some View {
         VStack(spacing: 30) {
@@ -248,9 +261,8 @@ struct LoginView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 
                 Button("Sign In") {
-                    // Simple authentication for demo
-                    if !email.isEmpty && !password.isEmpty {
-                        isAuthenticated = true
+                    Task {
+                        await authService.signIn(email: email, password: password)
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -258,13 +270,126 @@ struct LoginView: View {
                 .background(Color.blue)
                 .foregroundColor(.white)
                 .cornerRadius(10)
-                .disabled(email.isEmpty || password.isEmpty)
+                .disabled(email.isEmpty || password.isEmpty || authService.isLoading)
+                
+                if authService.isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                }
+                
+                if let errorMessage = authService.errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .font(.caption)
+                        .multilineTextAlignment(.center)
+                }
+                
+                Button("Create Account") {
+                    showingSignUp = true
+                }
+                .font(.caption)
+                .foregroundColor(.blue)
             }
             .padding(.horizontal)
             
             Spacer()
         }
         .padding()
+        .sheet(isPresented: $showingSignUp) {
+            SignUpView()
+        }
+    }
+}
+
+struct SignUpView: View {
+    @StateObject private var authService = AuthService.shared
+    @Environment(\.dismiss) private var dismiss
+    
+    @State private var email = ""
+    @State private var password = ""
+    @State private var confirmPassword = ""
+    @State private var firstName = ""
+    @State private var lastName = ""
+    @State private var phoneNumber = ""
+    @State private var selectedRole: UserRole = .client
+    
+    var body: some View {
+        NavigationView {
+            Form {
+                Section("Personal Information") {
+                    TextField("First Name", text: $firstName)
+                    TextField("Last Name", text: $lastName)
+                    TextField("Phone Number", text: $phoneNumber)
+                        .keyboardType(.phonePad)
+                }
+                
+                Section("Account Details") {
+                    TextField("Email", text: $email)
+                        .keyboardType(.emailAddress)
+                        .autocapitalization(.none)
+                    
+                    SecureField("Password", text: $password)
+                    SecureField("Confirm Password", text: $confirmPassword)
+                }
+                
+                Section("Role") {
+                    Picker("Select Role", selection: $selectedRole) {
+                        ForEach(UserRole.allCases, id: \.self) { role in
+                            Text(role.displayName).tag(role)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                }
+                
+                Section {
+                    Button("Create Account") {
+                        Task {
+                            await authService.signUp(
+                                email: email,
+                                password: password,
+                                firstName: firstName,
+                                lastName: lastName,
+                                role: selectedRole,
+                                phoneNumber: phoneNumber.isEmpty ? nil : phoneNumber
+                            )
+                            
+                            if authService.isAuthenticated {
+                                dismiss()
+                            }
+                        }
+                    }
+                    .disabled(!isFormValid || authService.isLoading)
+                    
+                    if authService.isLoading {
+                        HStack {
+                            Spacer()
+                            ProgressView()
+                            Spacer()
+                        }
+                    }
+                    
+                    if let errorMessage = authService.errorMessage {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .font(.caption)
+                    }
+                }
+            }
+            .navigationTitle("Create Account")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
+    
+    private var isFormValid: Bool {
+        !email.isEmpty && !password.isEmpty && password == confirmPassword &&
+        !firstName.isEmpty && !lastName.isEmpty && password.count >= 6
     }
 }
 
