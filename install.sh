@@ -62,9 +62,8 @@ cd ..
 # Install frontend dependencies
 echo "📦 Installing frontend dependencies..."
 cd frontend
-npm install
-echo "5. Installing Expo CLI..."
-npm install -g @expo/cli
+npm run install:all
+echo "✅ iOS project is ready - open GuardtheLife.xcodeproj in Xcode"
 cd ..
 
 # Start Docker services
@@ -87,8 +86,8 @@ echo "1. Configure your environment variables in backend/.env and frontend/.env"
 echo "2. Set up your Firebase project and add credentials"
 echo "3. Set up your Stripe account and add API keys"
 echo "4. Start the backend: cd backend && npm run dev"
-echo "5. Start the frontend: cd frontend && npm start"
-echo "6. Build with EAS: cd frontend && npx eas-cli@latest build --platform all"
+echo "5. Start the web app: cd frontend && npm run web:start"
+echo "6. Open iOS project: cd frontend && npm run ios:open"
 echo "7. Access pgAdmin at http://localhost:5050 (admin@lifeguard.com / admin)"
 echo ""
 echo "🚀 Happy coding!" 

@@ -1,26 +1,21 @@
 {
   "name": "guardthelife-frontend",
   "version": "1.0.0",
-  "description": "GuardtheLife platform - React Web + Expo Mobile",
+  "description": "GuardtheLife platform - React Web + Swift iOS",
   "private": true,
   "workspaces": [
     "web",
-    "mobile",
+    "ios",
     "shared"
   ],
   "scripts": {
     "web:start": "cd web && npm start",
     "web:build": "cd web && npm run build",
-    "mobile:start": "cd mobile && npm start",
-    "mobile:android": "cd mobile && npm run android",
-    "mobile:ios": "cd mobile && npm run ios",
-    "mobile:web": "cd mobile && npm run web",
-    "mobile:build:all": "cd mobile && npm run build:all",
-    "mobile:build:android": "cd mobile && npm run build:android",
-    "mobile:build:ios": "cd mobile && npm run build:ios",
-    "mobile:build:web": "cd mobile && npm run build:web",
-    "install:all": "npm install && cd web && npm install && cd ../mobile && npm install && cd ../shared && npm install",
-    "type-check": "cd web && npm run type-check && cd ../mobile && npm run type-check",
-        "lint": "cd web && npm run lint && cd ../mobile && npm run lint"
+    "ios:open": "cd ios && open GuardtheLife.xcodeproj",
+    "ios:build": "cd ios && xcodebuild -project GuardtheLife.xcodeproj -scheme GuardtheLife -configuration Debug",
+    "ios:build:release": "cd ios && xcodebuild -project GuardtheLife.xcodeproj -scheme GuardtheLife -configuration Release",
+    "install:all": "npm install && cd web && npm install && cd ../ios && echo 'iOS project ready for Xcode' && cd ../shared && npm install",
+    "type-check": "cd web && npm run type-check",
+    "lint": "cd web && npm run lint"
   }
 }

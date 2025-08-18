@@ -1,13 +1,13 @@
 # GuardtheLife Frontend
 
-This project supports both **React Web** and **Expo Mobile** applications, sharing common business logic and components.
+This project supports both **React Web** and **Swift iOS** applications, sharing common business logic and components.
 
 ## 🏗️ Project Structure
 
 ```
 frontend/
 ├── web/           # React web application
-├── mobile/        # Expo mobile application  
+├── ios/           # Swift iOS application  
 ├── shared/        # Shared dependencies
 └── src/           # Common source code (to be moved)
 ```
@@ -25,39 +25,30 @@ npm run web:start      # Start React dev server
 npm run web:build      # Build for production
 ```
 
-### Mobile Development
+### iOS Development
 ```bash
-npm run mobile:start      # Start Expo dev server
-npm run mobile:android    # Run on Android
-npm run mobile:ios        # Run on iOS
-npm run mobile:web        # Run on web via Expo
-```
-
-### Mobile Builds (EAS)
-```bash
-npm run mobile:build:all      # Build for all platforms
-npm run mobile:build:android  # Build Android APK/AAB
-npm run mobile:build:ios      # Build iOS IPA
-npm run mobile:build:web      # Build web version
+npm run ios:open         # Open Swift iOS app in Xcode
+npm run ios:build        # Build iOS app (Debug)
+npm run ios:build:release # Build iOS app (Release)
 ```
 
 ## 🔧 Development Workflow
 
 1. **Shared Code**: Place common business logic in `src/` directory
 2. **Web-Specific**: Platform-specific code goes in `web/src/`
-3. **Mobile-Specific**: Platform-specific code goes in `mobile/src/`
+3. **iOS-Specific**: Platform-specific code goes in `ios/GuardtheLife/`
 4. **Dependencies**: Use `shared/` for common packages
 
 ## 📱 Platforms Supported
 
 - **Web**: React 18 + TypeScript
-- **Mobile**: Expo SDK 49 + React Native
-- **Build**: EAS Build for cloud-based compilation
-- **Deploy**: Web to any hosting, Mobile to app stores
+- **iOS**: Swift 5.9+ + SwiftUI
+- **Build**: Xcode for iOS, React Scripts for web
+- **Deploy**: Web to any hosting, iOS to App Store
 
 ## 🎯 Benefits
 
 - **Code Sharing**: Common business logic across platforms
-- **Platform Optimization**: Native features for mobile, web features for browser
+- **Platform Optimization**: Native features for iOS, web features for browser
 - **Unified Development**: Single repository, multiple targets
 - **Flexible Deployment**: Choose your target platform 
