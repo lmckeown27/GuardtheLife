@@ -1,0 +1,14 @@
+{
+  "name": "guardthelife-shared",
+  "version": "1.0.0",
+  "description": "Shared dependencies for GuardtheLife platform",
+  "private": true,
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.7",
+    "react-redux": "^8.1.3",
+    "socket.io-client": "^4.7.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.3"
+  }
+} 

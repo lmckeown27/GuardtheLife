@@ -16,9 +16,11 @@ A comprehensive platform connecting clients with available lifeguards in real-ti
 ## 🚀 Tech Stack
 
 ### Frontend
-- **Expo** with React Native and TypeScript
-- Cross-platform mobile app for iOS, Android, and Web
-- EAS Build for cloud-based builds
+- **Dual Platform**: React Web + Expo Mobile
+- **Web**: React 18 with TypeScript for browsers
+- **Mobile**: Expo SDK 49 with React Native for iOS/Android
+- **Shared**: Common business logic and components
+- **Build**: EAS Build for mobile, React Scripts for web
 
 ### Backend
 - **Node.js** with TypeScript and Express
@@ -79,8 +81,8 @@ A comprehensive platform connecting clients with available lifeguards in real-ti
    # Backend
    cd backend && npm install
    
-   # Frontend
-   cd ../frontend && npm install
+   # Frontend (both web and mobile)
+   cd ../frontend && npm run install:all
    ```
 
 3. **Environment setup**
@@ -99,8 +101,10 @@ A comprehensive platform connecting clients with available lifeguards in real-ti
    # Backend
    cd backend && npm run dev
    
-   # Frontend
-   cd frontend && npm run start
+   # Frontend - Choose your platform:
+   cd frontend
+   npm run web:start      # React web app
+   npm run mobile:start   # Expo mobile app
    ```
 
 ## 🔧 Configuration
@@ -142,14 +146,23 @@ The application uses PostgreSQL with PostGIS for efficient location-based querie
 - Location data encryption
 - API rate limiting
 
-## 📱 Mobile App
+## 📱 Applications
 
-### React Native Components
+### Web App (React)
+- **Framework**: React 18 with TypeScript
+- **Routing**: React Router for navigation
+- **State Management**: Redux Toolkit for global state
+- **Styling**: CSS-in-JS or traditional CSS
+- **Deployment**: Any web hosting platform
+
+### Mobile App (Expo)
+- **Framework**: Expo SDK 49 with React Native
 - **Navigation**: React Navigation with role-based routing
 - **State Management**: Redux Toolkit for global state
 - **Maps**: React Native Maps for location services
 - **Notifications**: React Native Push Notification
 - **Payments**: Stripe React Native SDK
+- **Build**: EAS Build for cloud compilation
 
 ## 🚀 Deployment
 
@@ -159,9 +172,9 @@ The application uses PostgreSQL with PostGIS for efficient location-based querie
 - Set up SSL certificates
 
 ### Frontend
-- Build for production
-- Deploy to app stores (iOS App Store, Google Play)
-- Use CodePush for over-the-air updates
+- **Web**: Build with `npm run web:build` and deploy to any hosting
+- **Mobile**: Build with EAS (`npm run mobile:build:all`) and deploy to app stores
+- **Updates**: Use CodePush for over-the-air mobile updates
 
 ## 🤝 Contributing
 
