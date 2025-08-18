@@ -16,8 +16,9 @@ A comprehensive platform connecting clients with available lifeguards in real-ti
 ## 🚀 Tech Stack
 
 ### Frontend
-- **React Native** with TypeScript
-- Cross-platform mobile app for iOS and Android
+- **Expo** with React Native and TypeScript
+- Cross-platform mobile app for iOS, Android, and Web
+- EAS Build for cloud-based builds
 
 ### Backend
 - **Node.js** with TypeScript and Express
@@ -61,7 +62,7 @@ A comprehensive platform connecting clients with available lifeguards in real-ti
 ### Prerequisites
 - Node.js 18+
 - PostgreSQL 14+ with PostGIS
-- React Native development environment
+- Expo CLI (`npm install -g @expo/cli`)
 - Firebase project
 - Stripe account
 

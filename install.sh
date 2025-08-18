@@ -63,6 +63,8 @@ cd ..
 echo "📦 Installing frontend dependencies..."
 cd frontend
 npm install
+echo "5. Installing Expo CLI..."
+npm install -g @expo/cli
 cd ..
 
 # Start Docker services
@@ -86,6 +88,7 @@ echo "2. Set up your Firebase project and add credentials"
 echo "3. Set up your Stripe account and add API keys"
 echo "4. Start the backend: cd backend && npm run dev"
 echo "5. Start the frontend: cd frontend && npm start"
-echo "6. Access pgAdmin at http://localhost:5050 (admin@lifeguard.com / admin)"
+echo "6. Build with EAS: cd frontend && npx eas-cli@latest build --platform all"
+echo "7. Access pgAdmin at http://localhost:5050 (admin@lifeguard.com / admin)"
 echo ""
 echo "🚀 Happy coding!" 

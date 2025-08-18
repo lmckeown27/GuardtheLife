@@ -61,9 +61,11 @@ npm run db:seed      # Seed with sample data
 ### Frontend Development
 ```bash
 cd frontend
-npm start            # Start Metro bundler
+npm start            # Start Expo development server
 npm run android      # Run on Android
 npm run ios          # Run on iOS
+npm run web          # Run on web
+npm run build:all    # Build for all platforms with EAS
 ```
 
 ### Docker Management
@@ -72,6 +74,31 @@ docker-compose up -d     # Start services
 docker-compose down      # Stop services
 docker-compose logs -f   # View logs
 docker-compose restart   # Restart services
+```
+
+## 🚀 Building with EAS
+
+### Build for All Platforms
+```bash
+cd frontend
+npx eas-cli@latest build --platform all
+```
+
+This will build your app for:
+- **iOS**: .ipa file for App Store distribution
+- **Android**: .aab file for Google Play Store
+- **Web**: Optimized web build
+
+### Build for Specific Platform
+```bash
+# Android only
+npx eas-cli@latest build --platform android
+
+# iOS only  
+npx eas-cli@latest build --platform ios
+
+# Web only
+npx eas-cli@latest build --platform web
 ```
 
 ## 📱 Testing the App
