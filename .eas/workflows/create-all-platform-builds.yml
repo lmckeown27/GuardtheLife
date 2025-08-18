@@ -1,0 +1,23 @@
+name: Create All Platform Builds
+
+jobs:
+  build_android:
+    type: build
+    params:
+      platform: android
+      profile: production
+      non_interactive: true
+      
+  build_ios:
+    type: build
+    params:
+      platform: ios
+      profile: production
+      non_interactive: true
+      
+  build_web:
+    type: build
+    params:
+      platform: web
+      profile: production
+      non_interactive: true 

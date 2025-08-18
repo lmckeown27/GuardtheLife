@@ -1,0 +1,23 @@
+name: Create Development Builds
+
+jobs:
+  build_android_dev:
+    type: build
+    params:
+      platform: android
+      profile: development
+      non_interactive: true
+      
+  build_ios_dev:
+    type: build
+    params:
+      platform: ios
+      profile: development
+      non_interactive: true
+      
+  build_web_dev:
+    type: build
+    params:
+      platform: web
+      profile: development
+      non_interactive: true 
