@@ -151,18 +151,18 @@ class APIService: ObservableObject {
     }
     
     // MARK: - Bookings
-    func createBooking(request: CreateBookingRequest) async throws -> Booking {
+    func createBooking(bookingData: CreateBookingRequest) async throws -> Booking {
         let parameters: Parameters = [
-            "lifeguardId": request.lifeguardId,
-            "serviceType": request.serviceType.rawValue,
-            "startTime": ISO8601DateFormatter().string(from: request.startTime),
-            "endTime": ISO8601DateFormatter().string(from: request.endTime),
+            "lifeguardId": bookingData.lifeguardId,
+            "serviceType": bookingData.serviceType.rawValue,
+            "startTime": ISO8601DateFormatter().string(from: bookingData.startTime),
+            "endTime": ISO8601DateFormatter().string(from: bookingData.endTime),
             "location": [
-                "latitude": request.location.latitude,
-                "longitude": request.location.longitude,
-                "address": request.location.address ?? ""
+                "latitude": bookingData.location.latitude,
+                "longitude": bookingData.location.longitude,
+                "address": bookingData.location.address ?? ""
             ],
-            "specialInstructions": request.specialInstructions ?? ""
+            "specialInstructions": bookingData.specialInstructions ?? ""
         ]
         
         return try await request(

@@ -7,10 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		92FCD7C32E53F1DE00C227DA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7C22E53F1DE00C227DA /* Alamofire */; };
+		92FCD7C52E53F1DE00C227DA /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7C42E53F1DE00C227DA /* AlamofireDynamic */; };
+		92FCD7C82E53F38C00C227DA /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7C72E53F38C00C227DA /* SwiftyJSON */; };
+		92FCD7CC2E53F69300C227DA /* Stripe in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7CB2E53F69300C227DA /* Stripe */; };
+		92FCD7CE2E53F69300C227DA /* StripeApplePay in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7CD2E53F69300C227DA /* StripeApplePay */; };
+		92FCD7D02E53F69300C227DA /* StripeCardScan in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7CF2E53F69300C227DA /* StripeCardScan */; };
+		92FCD7D22E53F69300C227DA /* StripeConnect in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7D12E53F69300C227DA /* StripeConnect */; };
+		92FCD7D42E53F69300C227DA /* StripeFinancialConnections in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7D32E53F69300C227DA /* StripeFinancialConnections */; };
+		92FCD7D72E53F86200C227DA /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7D62E53F86200C227DA /* SocketIO */; };
+		92FCD7DA2E53F88D00C227DA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7D92E53F88D00C227DA /* Lottie */; };
+		92FCD7DC2E53F88D00C227DA /* Lottie-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7DB2E53F88D00C227DA /* Lottie-Dynamic */; };
+		92FCD7DF2E53F92700C227DA /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7DE2E53F92700C227DA /* KeychainAccess */; };
+		92FCD7E22E53FA4800C227DA /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7E12E53FA4800C227DA /* Kingfisher */; };
 		A1234567890123456789012A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012B /* AppDelegate.swift */; };
 		A1234567890123456789012C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012D /* ContentView.swift */; };
 		A1234567890123456789012E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012F /* SceneDelegate.swift */; };
-		A1234567890123456789013A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789013B /* Assets.xcassets */; };
 		A1234567890123456789013C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789013D /* LaunchScreen.storyboard */; };
 		A1234567890123456789014A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789014B /* User.swift */; };
 		A1234567890123456789014C /* Lifeguard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789014D /* Lifeguard.swift */; };
@@ -21,6 +33,17 @@
 		A1234567890123456789016A /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789016B /* NotificationService.swift */; };
 		A1234567890123456789016C /* PaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789016D /* PaymentService.swift */; };
 		A1234567890123456789016E /* SocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789016F /* SocketService.swift */; };
+		A123456789012345678901EA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = A123456789012345678901DA /* Alamofire */; };
+		A123456789012345678901EB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = A123456789012345678901DB /* FirebaseAuth */; };
+		A123456789012345678901EC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = A123456789012345678901DC /* FirebaseFirestore */; };
+		A123456789012345678901ED /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = A123456789012345678901DD /* FirebaseMessaging */; };
+		A123456789012345678901EE /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = A123456789012345678901DE /* FirebaseAnalytics */; };
+		A123456789012345678901EF /* Stripe in Frameworks */ = {isa = PBXBuildFile; productRef = A123456789012345678901DF /* Stripe */; };
+		A123456789012345678901F0 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = A123456789012345678901E0 /* SocketIO */; };
+		A123456789012345678901F1 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = A123456789012345678901E1 /* Lottie */; };
+		A123456789012345678901F2 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = A123456789012345678901E2 /* SwiftyJSON */; };
+		A123456789012345678901F3 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = A123456789012345678901E3 /* KeychainAccess */; };
+		A123456789012345678901F4 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A123456789012345678901E4 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +70,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A123456789012345678901EA /* Alamofire in Frameworks */,
+				92FCD7CE2E53F69300C227DA /* StripeApplePay in Frameworks */,
+				A123456789012345678901EB /* FirebaseAuth in Frameworks */,
+				A123456789012345678901EC /* FirebaseFirestore in Frameworks */,
+				A123456789012345678901ED /* FirebaseMessaging in Frameworks */,
+				92FCD7D42E53F69300C227DA /* StripeFinancialConnections in Frameworks */,
+				A123456789012345678901EE /* FirebaseAnalytics in Frameworks */,
+				92FCD7CC2E53F69300C227DA /* Stripe in Frameworks */,
+				92FCD7DA2E53F88D00C227DA /* Lottie in Frameworks */,
+				A123456789012345678901EF /* Stripe in Frameworks */,
+				A123456789012345678901F0 /* SocketIO in Frameworks */,
+				A123456789012345678901F1 /* Lottie in Frameworks */,
+				92FCD7E22E53FA4800C227DA /* Kingfisher in Frameworks */,
+				92FCD7D22E53F69300C227DA /* StripeConnect in Frameworks */,
+				92FCD7C82E53F38C00C227DA /* SwiftyJSON in Frameworks */,
+				92FCD7D72E53F86200C227DA /* SocketIO in Frameworks */,
+				92FCD7C52E53F1DE00C227DA /* AlamofireDynamic in Frameworks */,
+				A123456789012345678901F2 /* SwiftyJSON in Frameworks */,
+				92FCD7DC2E53F88D00C227DA /* Lottie-Dynamic in Frameworks */,
+				92FCD7C32E53F1DE00C227DA /* Alamofire in Frameworks */,
+				A123456789012345678901F3 /* KeychainAccess in Frameworks */,
+				92FCD7D02E53F69300C227DA /* StripeCardScan in Frameworks */,
+				A123456789012345678901F4 /* Kingfisher in Frameworks */,
+				92FCD7DF2E53F92700C227DA /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,7 +123,7 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		A1234567890123456789018C /* GuardtheLife_IOS */ = {
+		A1234567890123456789018C /*  */ = {
 			isa = PBXGroup;
 			children = (
 				A1234567890123456789012B /* AppDelegate.swift */,
@@ -88,7 +135,7 @@
 				A1234567890123456789013D /* LaunchScreen.storyboard */,
 				A1234567890123456789013E /* Info.plist */,
 			);
-			path = "";
+			name = "";
 			sourceTree = "<group>";
 		};
 		A1234567890123456789018D /* Products */ = {
@@ -102,7 +149,7 @@
 		A1234567890123456789018E = {
 			isa = PBXGroup;
 			children = (
-				A1234567890123456789018C /* GuardtheLife_IOS */,
+				A1234567890123456789018C /*  */,
 				A1234567890123456789018D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -151,6 +198,16 @@
 				Base,
 			);
 			mainGroup = A1234567890123456789018E;
+			packageReferences = (
+				92FCD7C12E53F1DE00C227DA /* XCRemoteSwiftPackageReference "Alamofire" */,
+				92FCD7C62E53F38C00C227DA /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				92FCD7C92E53F3E900C227DA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				92FCD7CA2E53F69300C227DA /* XCRemoteSwiftPackageReference "stripe-ios" */,
+				92FCD7D52E53F86200C227DA /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
+				92FCD7D82E53F88D00C227DA /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				92FCD7DD2E53F92700C227DA /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				92FCD7E02E53FA4800C227DA /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = A1234567890123456789018D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -165,7 +222,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1234567890123456789013C /* Assets.xcassets in Resources */,
+				A1234567890123456789013C /* LaunchScreen.storyboard in Resources */,
 				A1234567890123456789013C /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -392,6 +449,260 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		92FCD7C12E53F1DE00C227DA /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		92FCD7C62E53F38C00C227DA /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
+		92FCD7C92E53F3E900C227DA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.1.0;
+			};
+		};
+		92FCD7CA2E53F69300C227DA /* XCRemoteSwiftPackageReference "stripe-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stripe/stripe-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.20.0;
+			};
+		};
+		92FCD7D52E53F86200C227DA /* XCRemoteSwiftPackageReference "socket.io-client-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		92FCD7D82E53F88D00C227DA /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.2;
+			};
+		};
+		92FCD7DD2E53F92700C227DA /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		92FCD7E02E53FA4800C227DA /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.5.0;
+			};
+		};
+		A123456789012345678901CA /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		A123456789012345678901CB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
+		A123456789012345678901CC /* XCRemoteSwiftPackageReference "stripe-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stripe/stripe-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 23.0.0;
+			};
+		};
+		A123456789012345678901CD /* XCRemoteSwiftPackageReference "socket.io-client-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 16.0.0;
+			};
+		};
+		A123456789012345678901CE /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+		A123456789012345678901CF /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		A123456789012345678901D0 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+		A123456789012345678901D1 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		92FCD7C22E53F1DE00C227DA /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7C12E53F1DE00C227DA /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		92FCD7C42E53F1DE00C227DA /* AlamofireDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7C12E53F1DE00C227DA /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = AlamofireDynamic;
+		};
+		92FCD7C72E53F38C00C227DA /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7C62E53F38C00C227DA /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+		92FCD7CB2E53F69300C227DA /* Stripe */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7CA2E53F69300C227DA /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = Stripe;
+		};
+		92FCD7CD2E53F69300C227DA /* StripeApplePay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7CA2E53F69300C227DA /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeApplePay;
+		};
+		92FCD7CF2E53F69300C227DA /* StripeCardScan */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7CA2E53F69300C227DA /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeCardScan;
+		};
+		92FCD7D12E53F69300C227DA /* StripeConnect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7CA2E53F69300C227DA /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeConnect;
+		};
+		92FCD7D32E53F69300C227DA /* StripeFinancialConnections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7CA2E53F69300C227DA /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeFinancialConnections;
+		};
+		92FCD7D62E53F86200C227DA /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7D52E53F86200C227DA /* XCRemoteSwiftPackageReference "socket.io-client-swift" */;
+			productName = SocketIO;
+		};
+		92FCD7D92E53F88D00C227DA /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7D82E53F88D00C227DA /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		92FCD7DB2E53F88D00C227DA /* Lottie-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7D82E53F88D00C227DA /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = "Lottie-Dynamic";
+		};
+		92FCD7DE2E53F92700C227DA /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7DD2E53F92700C227DA /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+		92FCD7E12E53FA4800C227DA /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7E02E53FA4800C227DA /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		A123456789012345678901DA /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A123456789012345678901CA /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		A123456789012345678901DB /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A123456789012345678901CB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		A123456789012345678901DC /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A123456789012345678901CB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		A123456789012345678901DD /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A123456789012345678901CB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		A123456789012345678901DE /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A123456789012345678901CB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		A123456789012345678901DF /* Stripe */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A123456789012345678901CC /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = Stripe;
+		};
+		A123456789012345678901E0 /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A123456789012345678901CD /* XCRemoteSwiftPackageReference "socket.io-client-swift" */;
+			productName = SocketIO;
+		};
+		A123456789012345678901E1 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A123456789012345678901CE /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		A123456789012345678901E2 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A123456789012345678901CF /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+		A123456789012345678901E3 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A123456789012345678901D0 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+		A123456789012345678901E4 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A123456789012345678901D1 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A123456789012345678901AA /* Project object */;
-} 
+}
