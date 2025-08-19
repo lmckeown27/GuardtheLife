@@ -1,5 +1,5 @@
-import { Router, Request, Response } from 'express';
-import { body, validationResult } from 'express-validator';
+import { Router } from 'express';
+import { body } from 'express-validator';
 import { authController } from '../controllers/authController';
 import { authMiddleware } from '../middleware/authMiddleware';
 
@@ -12,7 +12,7 @@ const validateRegistration = [
   body('role').isIn(['client', 'lifeguard']),
   body('firstName').notEmpty().trim(),
   body('lastName').notEmpty().trim(),
-  body('phone').optional().isMobilePhone()
+  body('phone').optional().isMobilePhone('any')
 ];
 
 const validateLogin = [

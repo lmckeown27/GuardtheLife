@@ -126,7 +126,7 @@ export const authController = {
   // Firebase authentication
   async firebaseAuth(req: Request, res: Response) {
     try {
-      const { firebaseToken } = req.body;
+      const { firebaseToken: _firebaseToken } = req.body;
 
       // TODO: Implement Firebase token verification
       // For now, return a placeholder response
@@ -141,7 +141,7 @@ export const authController = {
   },
 
   // Refresh token
-  async refreshToken(req: Request, res: Response) {
+  async refreshToken(_req: Request, res: Response) {
     try {
       // TODO: Implement token refresh logic
       res.json({
@@ -157,7 +157,7 @@ export const authController = {
   // Forgot password
   async forgotPassword(req: Request, res: Response) {
     try {
-      const { email } = req.body;
+      const { email: _email } = req.body;
 
       // TODO: Implement password reset logic
       res.json({
@@ -249,7 +249,7 @@ export const authController = {
   },
 
   // Logout
-  async logout(req: Request, res: Response) {
+  async logout(_req: Request, res: Response) {
     try {
       // TODO: Implement logout logic (e.g., blacklist token)
       res.json({

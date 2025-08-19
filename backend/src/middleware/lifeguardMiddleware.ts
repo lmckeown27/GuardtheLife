@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { createError } from './errorHandler';
 
-export const lifeguardMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+export const lifeguardMiddleware = (req: Request, _res: Response, next: NextFunction): void => {
   try {
     const user = req.user;
     

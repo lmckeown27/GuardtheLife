@@ -227,11 +227,12 @@ class NotificationService: NSObject, ObservableObject {
     }
     
     // MARK: - FCM Token Management
-    private func sendTokenToServer(_ token: String) {
+    nonisolated private func sendTokenToServer(_ token: String) {
         // Send FCM token to your backend
-        guard let user = AuthService.shared.currentUser else { return }
-        
-        Task {
+        // Since this is nonisolated, we need to check auth service on main actor
+        Task { @MainActor in
+            guard let user = AuthService.shared.currentUser else { return }
+            
             do {
                 try await APIService.shared.updateFCMToken(token: token)
                 print("FCM token sent to server successfully")
@@ -351,13 +352,15 @@ extension NotificationService: UNUserNotificationCenterDelegate {
 
 // MARK: - MessagingDelegate
 extension NotificationService: MessagingDelegate {
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+    nonisolated func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         guard let token = fcmToken else { return }
         
-        DispatchQueue.main.async {
+        // Since this method is nonisolated, we need to dispatch to main actor for UI updates
+        Task { @MainActor in
             self.fcmToken = token
         }
         
+        // Call the nonisolated method
         sendTokenToServer(token)
     }
 }

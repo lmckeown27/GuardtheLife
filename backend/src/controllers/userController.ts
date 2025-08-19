@@ -107,7 +107,7 @@ export const userController = {
         throw createError('User not authenticated', 401);
       }
 
-      const { latitude, longitude, radius = 10 } = req.query; // radius in km
+      const { latitude, longitude, radius: _radius = 10 } = req.query; // radius in km
 
       // Get user's location
       const userLocation = await db('user_locations')

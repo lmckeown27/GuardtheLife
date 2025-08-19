@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		92D78F3E2E545E00006355AE /* PaymentSheetExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D78F3D2E545E00006355AE /* PaymentSheetExample.swift */; };
+		92D78F402E545E22006355AE /* StripeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D78F3F2E545E22006355AE /* StripeConfig.swift */; };
 		92FCD7C32E53F1DE00C227DA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7C22E53F1DE00C227DA /* Alamofire */; };
 		92FCD7C52E53F1DE00C227DA /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7C42E53F1DE00C227DA /* AlamofireDynamic */; };
 		92FCD7C82E53F38C00C227DA /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7C72E53F38C00C227DA /* SwiftyJSON */; };
@@ -47,6 +49,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		92D78F3D2E545E00006355AE /* PaymentSheetExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSheetExample.swift; sourceTree = "<group>"; };
+		92D78F3F2E545E22006355AE /* StripeConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripeConfig.swift; sourceTree = "<group>"; };
 		A1234567890123456789012B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1234567890123456789012D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A1234567890123456789012F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -123,19 +127,20 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		A1234567890123456789018C /*  */ = {
+		A1234567890123456789018C = {
 			isa = PBXGroup;
 			children = (
+				92D78F3F2E545E22006355AE /* StripeConfig.swift */,
 				A1234567890123456789012B /* AppDelegate.swift */,
 				A1234567890123456789012D /* ContentView.swift */,
 				A1234567890123456789012F /* SceneDelegate.swift */,
+				92D78F3D2E545E00006355AE /* PaymentSheetExample.swift */,
 				A1234567890123456789018A /* Models */,
 				A1234567890123456789018B /* Services */,
 				A1234567890123456789013B /* Assets.xcassets */,
 				A1234567890123456789013D /* LaunchScreen.storyboard */,
 				A1234567890123456789013E /* Info.plist */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		A1234567890123456789018D /* Products */ = {
@@ -149,7 +154,7 @@
 		A1234567890123456789018E = {
 			isa = PBXGroup;
 			children = (
-				A1234567890123456789018C /*  */,
+				A1234567890123456789018C,
 				A1234567890123456789018D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -238,7 +243,9 @@
 				A1234567890123456789012C /* ContentView.swift in Sources */,
 				A1234567890123456789012E /* SceneDelegate.swift in Sources */,
 				A1234567890123456789014A /* User.swift in Sources */,
+				92D78F402E545E22006355AE /* StripeConfig.swift in Sources */,
 				A1234567890123456789014C /* Lifeguard.swift in Sources */,
+				92D78F3E2E545E00006355AE /* PaymentSheetExample.swift in Sources */,
 				A1234567890123456789014E /* Booking.swift in Sources */,
 				A1234567890123456789015A /* APIService.swift in Sources */,
 				A1234567890123456789015C /* AuthService.swift in Sources */,

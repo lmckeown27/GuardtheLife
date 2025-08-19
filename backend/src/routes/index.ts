@@ -11,7 +11,7 @@ export function setupRoutes(app: Express): void {
   const apiPrefix = '/api/v1';
 
   // Health check route
-  app.get('/health', (req, res) => {
+  app.get('/health', (_req, res) => {
     res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
   });
 
@@ -24,7 +24,7 @@ export function setupRoutes(app: Express): void {
   app.use(`${apiPrefix}/notifications`, notificationRoutes);
 
   // API documentation route
-  app.get(`${apiPrefix}/docs`, (req, res) => {
+  app.get(`${apiPrefix}/docs`, (_req, res) => {
     res.json({
               message: 'GuardtheLife API',
       version: '1.0.0',

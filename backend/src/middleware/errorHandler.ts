@@ -7,9 +7,9 @@ export interface AppError extends Error {
 
 export const errorHandler = (
   error: AppError,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ): void => {
   const statusCode = error.statusCode || 500;
   const message = error.message || 'Internal Server Error';
@@ -21,8 +21,8 @@ export const errorHandler = (
   // Don't leak error details in production
   const errorResponse = {
     error: {
-      message: process.env.NODE_ENV === 'production' ? 'Internal Server Error' : message,
-      ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
+      message: process.env['NODE_ENV'] === 'production' ? 'Internal Server Error' : message,
+      ...(process.env['NODE_ENV'] === 'development' && { stack: error.stack })
     }
   };
 
@@ -36,7 +36,7 @@ export const createError = (message: string, statusCode: number = 500): AppError
   return error;
 };
 
-export const notFound = (req: Request, res: Response, next: NextFunction): void => {
-  const error = createError(`Route ${req.originalUrl} not found`, 404);
-  next(error);
+export const notFound = (_req: Request, _res: Response, _next: NextFunction): void => {
+  const error = createError(`Route ${_req.originalUrl} not found`, 404);
+  _next(error);
 }; 

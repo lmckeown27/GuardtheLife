@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { paymentController } from '../controllers/paymentController';
+import { PaymentController } from '../controllers/paymentController';
 import { authMiddleware } from '../middleware/authMiddleware';
 
 const router = Router();
@@ -7,14 +7,18 @@ const router = Router();
 // All routes require authentication
 router.use(authMiddleware);
 
-router.post('/create-payment-intent', paymentController.createPaymentIntent);
-router.post('/confirm-payment', paymentController.confirmPayment);
-router.get('/payment-methods', paymentController.getPaymentMethods);
-router.post('/add-payment-method', paymentController.addPaymentMethod);
-router.delete('/payment-methods/:methodId', paymentController.removePaymentMethod);
-router.get('/transactions', paymentController.getTransactions);
-router.get('/transactions/:transactionId', paymentController.getTransaction);
-router.post('/refund/:transactionId', paymentController.refundPayment);
-router.post('/webhook', paymentController.handleWebhook);
+// Payment intent routes
+router.post('/create-payment-intent', PaymentController.createPaymentIntent);
+router.post('/confirm-payment', PaymentController.confirmPayment);
+router.get('/status/:paymentIntentId', PaymentController.getPaymentStatus);
+
+// Refund routes
+router.post('/refund', PaymentController.processRefund);
+
+// Webhook route (no auth required for Stripe webhooks)
+router.post('/webhook', (_req, res) => {
+  // TODO: Implement webhook signature verification
+  res.json({ received: true });
+});
 
 export default router; 

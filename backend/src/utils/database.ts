@@ -6,11 +6,11 @@ dotenv.config();
 const config = {
   client: 'pg',
   connection: {
-    host: process.env.POSTGRES_HOST || 'localhost',
-    port: parseInt(process.env.POSTGRES_PORT || '5432'),
-    user: process.env.POSTGRES_USER || 'postgres',
-    password: process.env.POSTGRES_PASSWORD || 'password',
-    database: process.env.POSTGRES_DB || 'lifeguard_db',
+    host: process.env['POSTGRES_HOST'] || 'localhost',
+    port: parseInt(process.env['POSTGRES_PORT'] || '5432'),
+    user: process.env['POSTGRES_USER'] || 'postgres',
+    password: process.env['POSTGRES_PASSWORD'] || 'password',
+    database: process.env['POSTGRES_DB'] || 'lifeguard_db',
   },
   pool: {
     min: 2,
@@ -29,7 +29,7 @@ const config = {
   seeds: {
     directory: './src/database/seeds',
   },
-  debug: process.env.NODE_ENV === 'development',
+  debug: process.env['NODE_ENV'] === 'development',
 };
 
 export const db = knex(config);
@@ -62,7 +62,7 @@ export async function initializeDatabase(): Promise<void> {
     console.log('✅ Database migrations completed');
 
     // Run seeds in development
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env['NODE_ENV'] === 'development') {
       await db.seed.run();
       console.log('✅ Database seeds completed');
     }

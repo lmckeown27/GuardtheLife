@@ -6,12 +6,12 @@ export const notificationController = {
   // Register device for notifications
   async registerDevice(req: Request, res: Response) {
     try {
-      const userId = (req as any).user?.userId;
-      if (!userId) {
+      const _userId = (req as any).user?.userId;
+      if (!_userId) {
         throw createError('User not authenticated', 401);
       }
 
-      const { deviceToken } = req.body;
+      const { deviceToken: _deviceToken } = req.body;
 
       // TODO: Implement Firebase device registration
       res.json({
@@ -27,7 +27,7 @@ export const notificationController = {
   // Unregister device
   async unregisterDevice(req: Request, res: Response) {
     try {
-      const { deviceId } = req.params;
+      const { deviceId: _deviceId } = req.params;
 
       // TODO: Implement Firebase device unregistration
       res.json({
@@ -41,9 +41,9 @@ export const notificationController = {
   },
 
   // Get user devices
-  async getDevices(req: Request, res: Response) {
+  async getDevices(_req: Request, res: Response) {
     try {
-      const userId = (req as any).user?.userId;
+      // const _userId = (req as any).user?.userId; // TODO: Use when implementing
 
       // TODO: Implement device retrieval
       res.json({
@@ -57,9 +57,9 @@ export const notificationController = {
   },
 
   // Send test notification
-  async sendTestNotification(req: Request, res: Response) {
+  async sendTestNotification(_req: Request, res: Response) {
     try {
-      const userId = (req as any).user?.userId;
+      // const _userId = (req as any).user?.userId; // TODO: Use when implementing
 
       // TODO: Implement test notification sending
       res.json({
@@ -75,13 +75,13 @@ export const notificationController = {
   // Get notification history
   async getNotificationHistory(req: Request, res: Response) {
     try {
-      const userId = (req as any).user?.userId;
-      if (!userId) {
+      const _userId = (req as any).user?.userId;
+      if (!_userId) {
         throw createError('User not authenticated', 401);
       }
 
       const notifications = await db('notifications')
-        .where({ user_id: userId })
+        .where({ user_id: _userId })
         .orderBy('created_at', 'desc')
         .limit(20);
 
@@ -101,8 +101,8 @@ export const notificationController = {
   // Update notification settings
   async updateNotificationSettings(req: Request, res: Response) {
     try {
-      const userId = (req as any).user?.userId;
-      const { settings } = req.body;
+      // const _userId = (req as any).user?.userId; // TODO: Use when implementing
+      const { settings: _settings } = req.body;
 
       // TODO: Implement notification settings update
       res.json({
@@ -116,9 +116,9 @@ export const notificationController = {
   },
 
   // Get notification settings
-  async getNotificationSettings(req: Request, res: Response) {
+  async getNotificationSettings(_req: Request, res: Response) {
     try {
-      const userId = (req as any).user?.userId;
+      // const _userId = (req as any).user?.userId; // TODO: Use when implementing
 
       // TODO: Implement notification settings retrieval
       res.json({
