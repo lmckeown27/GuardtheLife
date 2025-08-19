@@ -71,14 +71,14 @@ class APIService: ObservableObject {
         )
     }
     
-    func register(request: RegisterRequest) async throws -> LoginResponse {
+    func register(registerData: RegisterRequest) async throws -> LoginResponse {
         let parameters: Parameters = [
-            "email": request.email,
-            "password": request.password,
-            "firstName": request.firstName,
-            "lastName": request.lastName,
-            "role": request.role.rawValue,
-            "phoneNumber": request.phoneNumber ?? ""
+            "email": registerData.email,
+            "password": registerData.password,
+            "firstName": registerData.firstName,
+            "lastName": registerData.lastName,
+            "role": registerData.role.rawValue,
+            "phoneNumber": registerData.phoneNumber ?? ""
         ]
         
         return try await request(

@@ -119,7 +119,7 @@ class AuthService: ObservableObject {
                 phoneNumber: phoneNumber
             )
             
-            let loginResponse = try await apiService.register(request: registerRequest)
+            let loginResponse = try await apiService.register(registerData: registerRequest)
             
             // Set the auth token for API calls
             apiService.setAuthToken(loginResponse.token)
