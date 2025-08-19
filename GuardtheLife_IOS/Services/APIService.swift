@@ -235,6 +235,20 @@ class APIService: ObservableObject {
             responseType: PaymentResponse.self
         )
     }
+    
+    // MARK: - FCM Token Management
+    func updateFCMToken(token: String) async throws {
+        let parameters: Parameters = [
+            "fcmToken": token
+        ]
+        
+        _ = try await request(
+            endpoint: "/users/fcm-token",
+            method: .post,
+            parameters: parameters,
+            responseType: EmptyResponse.self
+        )
+    }
 }
 
 // MARK: - Request/Response Models
@@ -257,4 +271,8 @@ struct PaymentResponse: Codable {
     let status: String
     let amount: Int
     let currency: String
+}
+
+struct EmptyResponse: Codable {
+    // Empty response for endpoints that don't return data
 } 

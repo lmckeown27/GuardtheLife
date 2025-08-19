@@ -1,8 +1,10 @@
 import Foundation
+import UIKit
 import UserNotifications
 import FirebaseMessaging
 import Combine
 
+@MainActor
 class NotificationService: NSObject, ObservableObject {
     static let shared = NotificationService()
     
@@ -26,7 +28,7 @@ class NotificationService: NSObject, ObservableObject {
         
         // Check current authorization status
         notificationCenter.getNotificationSettings { [weak self] settings in
-            DispatchQueue.main.async {
+            Task { @MainActor in
                 self?.authorizationStatus = settings.authorizationStatus
                 self?.isAuthorized = settings.authorizationStatus == .authorized
             }
@@ -41,7 +43,7 @@ class NotificationService: NSObject, ObservableObject {
             if let error = error {
                 print("Error fetching FCM token: \(error)")
             } else if let token = token {
-                DispatchQueue.main.async {
+                Task { @MainActor in
                     self?.fcmToken = token
                 }
                 self?.sendTokenToServer(token)
@@ -56,9 +58,7 @@ class NotificationService: NSObject, ObservableObject {
                 options: [.alert, .badge, .sound, .provisional]
             )
             
-            DispatchQueue.main.async {
-                self.isAuthorized = granted
-            }
+            self.isAuthorized = granted
             
             return granted
         } catch {
@@ -286,43 +286,8 @@ class NotificationService: NSObject, ObservableObject {
     deinit {
         cancellables.removeAll()
     }
-}
-
-// MARK: - UNUserNotificationCenterDelegate
-extension NotificationService: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
-        willPresent notification: UNNotification,
-        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
-    ) {
-        // Show notification even when app is in foreground
-        completionHandler([.banner, .sound, .badge])
-    }
     
-    func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
-        didReceive response: UNNotificationResponse,
-        withCompletionHandler completionHandler: @escaping () -> Void
-    ) {
-        let userInfo = response.notification.request.content.userInfo
-        
-        // Handle notification actions
-        switch response.actionIdentifier {
-        case "VIEW_EMERGENCY":
-            handleEmergencyNotification(userInfo)
-        case "CALL_911":
-            callEmergencyServices()
-        case "VIEW_BOOKING":
-            handleBookingNotification(userInfo)
-        case "RATE_SERVICE":
-            handleRateServiceNotification(userInfo)
-        default:
-            break
-        }
-        
-        completionHandler()
-    }
-    
+    // MARK: - Notification Handlers
     private func handleEmergencyNotification(_ userInfo: [AnyHashable: Any]) {
         // Navigate to emergency details
         print("Handling emergency notification: \(userInfo)")
@@ -343,6 +308,44 @@ extension NotificationService: UNUserNotificationCenterDelegate {
     private func handleRateServiceNotification(_ userInfo: [AnyHashable: Any]) {
         // Navigate to rating screen
         print("Handling rate service notification: \(userInfo)")
+    }
+}
+
+// MARK: - UNUserNotificationCenterDelegate
+extension NotificationService: UNUserNotificationCenterDelegate {
+    nonisolated func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        // Show notification even when app is in foreground
+        completionHandler([.banner, .sound, .badge])
+    }
+    
+    nonisolated func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        let userInfo = response.notification.request.content.userInfo
+        
+        // Handle notification actions
+        Task { @MainActor in
+            switch response.actionIdentifier {
+            case "VIEW_EMERGENCY":
+                self.handleEmergencyNotification(userInfo)
+            case "CALL_911":
+                self.callEmergencyServices()
+            case "VIEW_BOOKING":
+                self.handleBookingNotification(userInfo)
+            case "RATE_SERVICE":
+                self.handleRateServiceNotification(userInfo)
+            default:
+                break
+            }
+        }
+        
+        completionHandler()
     }
 }
 

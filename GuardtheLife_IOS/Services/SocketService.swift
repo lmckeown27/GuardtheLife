@@ -237,6 +237,16 @@ enum EmergencyType: String, Codable {
     case injury = "injury"
     case weather = "weather"
     case other = "other"
+    
+    var displayName: String {
+        switch self {
+        case .medical: return "Medical"
+        case .drowning: return "Drowning"
+        case .injury: return "Injury"
+        case .weather: return "Weather"
+        case .other: return "Other"
+        }
+    }
 }
 
 enum EmergencySeverity: String, Codable, CaseIterable {
