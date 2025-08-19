@@ -3,6 +3,7 @@ import CoreLocation
 import MapKit
 import Combine
 
+@MainActor
 class LocationService: NSObject, ObservableObject {
     static let shared = LocationService()
     
@@ -45,7 +46,10 @@ class LocationService: NSObject, ObservableObject {
     
     private func setupLocationUpdateTimer() {
         locationUpdateTimer = Timer.scheduledTimer(withTimeInterval: locationUpdateInterval, repeats: true) { [weak self] _ in
-            self?.updateLocationIfNeeded()
+            // Since the timer runs in a non-isolated context, we need to dispatch to main actor
+            Task { @MainActor in
+                self?.updateLocationIfNeeded()
+            }
         }
     }
     
@@ -98,15 +102,17 @@ class LocationService: NSObject, ObservableObject {
         )
         
         // Update lifeguard location if user is a lifeguard
-        if let user = AuthService.shared.currentUser, user.role == .lifeguard {
-            Task {
-                do {
-                    try await apiService.updateLifeguardLocation(
-                        latitude: location.coordinate.latitude,
-                        longitude: location.coordinate.longitude
-                    )
-                } catch {
-                    print("Failed to update lifeguard location: \(error)")
+        Task { @MainActor in
+            if let user = AuthService.shared.currentUser, user.role == .lifeguard {
+                Task {
+                    do {
+                        _ = try await apiService.updateLifeguardLocation(
+                            latitude: location.coordinate.latitude,
+                            longitude: location.coordinate.longitude
+                        )
+                    } catch {
+                        print("Failed to update lifeguard location: \(error)")
+                    }
                 }
             }
         }
@@ -123,19 +129,15 @@ class LocationService: NSObject, ObservableObject {
                 radius: radius
             )
             
-            DispatchQueue.main.async {
-                self.nearbyLifeguards = lifeguards
-            }
+            self.nearbyLifeguards = lifeguards
         } catch {
-            DispatchQueue.main.async {
-                self.locationError = "Failed to find nearby lifeguards: \(error.localizedDescription)"
-            }
+            self.locationError = "Failed to find nearby lifeguards: \(error.localizedDescription)"
         }
     }
     
     // MARK: - Geofencing
     func startMonitoringRegion(for lifeguard: Lifeguard) {
-        guard let lifeguardLocation = lifeguard.currentLocation else { return }
+        guard let lifeguardLocation = lifeguard.location else { return }
         
         let region = CLCircularRegion(
             center: lifeguardLocation.coordinate,
@@ -235,36 +237,41 @@ class LocationService: NSObject, ObservableObject {
     
     // MARK: - Cleanup
     deinit {
-        stopLocationUpdates()
+        // Clean up what we can from deinit (non-main actor methods only)
         locationUpdateTimer?.invalidate()
         cancellables.removeAll()
+        
+        // Note: stopLocationUpdates() cannot be called from deinit
+        // as it's a main actor-isolated method. The location manager
+        // will be cleaned up automatically when the service is deallocated.
     }
 }
 
 // MARK: - CLLocationManagerDelegate
 extension LocationService: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    nonisolated func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         
-        DispatchQueue.main.async {
+        // Since this is nonisolated, we need to dispatch to main actor for UI updates
+        Task { @MainActor in
             self.currentLocation = location
             self.locationError = nil
-        }
-        
-        // Find nearby lifeguards when location updates
-        Task {
+            
+            // Find nearby lifeguards when location updates
             await findNearbyLifeguards()
         }
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        DispatchQueue.main.async {
+    nonisolated func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        // Since this is nonisolated, we need to dispatch to main actor for UI updates
+        Task { @MainActor in
             self.locationError = error.localizedDescription
         }
     }
     
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        DispatchQueue.main.async {
+    nonisolated func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        // Since this is nonisolated, we need to dispatch to main actor for UI updates
+        Task { @MainActor in
             self.authorizationStatus = status
             
             switch status {
@@ -282,17 +289,17 @@ extension LocationService: CLLocationManagerDelegate {
         }
     }
     
-    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+    nonisolated func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         print("Entered region: \(region.identifier)")
         // Handle entering a monitored region (e.g., lifeguard area)
     }
     
-    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+    nonisolated func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         print("Exited region: \(region.identifier)")
         // Handle exiting a monitored region
     }
     
-    func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
+    nonisolated func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
         print("Monitoring failed for region: \(region?.identifier ?? "unknown")")
     }
 } 

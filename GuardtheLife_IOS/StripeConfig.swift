@@ -8,29 +8,38 @@ struct StripeConfig {
         
         // Log successful configuration
         print("✅ Stripe configured successfully")
-        print("📱 Publishable key: \(String(StripeAPI.defaultPublishableKey.prefix(20)))...")
+        if let publishableKey = StripeAPI.defaultPublishableKey {
+            print("📱 Publishable key: \(String(publishableKey.prefix(20)))...")
+        }
         
         // Validate configuration
-        if StripeAPI.defaultPublishableKey.contains("pk_test_") {
-            print("🔧 Using Stripe TEST environment")
-        } else if StripeAPI.defaultPublishableKey.contains("pk_live_") {
-            print("🚀 Using Stripe PRODUCTION environment")
-        } else {
-            print("⚠️ WARNING: Invalid Stripe key format")
+        if let publishableKey = StripeAPI.defaultPublishableKey {
+            if publishableKey.contains("pk_test_") {
+                print("🔧 Using Stripe TEST environment")
+            } else if publishableKey.contains("pk_live_") {
+                print("🚀 Using Stripe PRODUCTION environment")
+            } else {
+                print("⚠️ WARNING: Invalid Stripe key format")
+            }
         }
     }
     
     // Check if Stripe is properly configured
     static var isConfigured: Bool {
-        return !StripeAPI.defaultPublishableKey.isEmpty && 
-               !StripeAPI.defaultPublishableKey.contains("your_")
+        guard let publishableKey = StripeAPI.defaultPublishableKey else {
+            return false
+        }
+        return !publishableKey.isEmpty && !publishableKey.contains("your_")
     }
     
     // Get the current environment
     static var environment: String {
-        if StripeAPI.defaultPublishableKey.contains("pk_test_") {
+        guard let publishableKey = StripeAPI.defaultPublishableKey else {
+            return "unknown"
+        }
+        if publishableKey.contains("pk_test_") {
             return "test"
-        } else if StripeAPI.defaultPublishableKey.contains("pk_live_") {
+        } else if publishableKey.contains("pk_live_") {
             return "production"
         } else {
             return "unknown"
@@ -46,6 +55,8 @@ struct StripeConfig {
         
         print("✅ Stripe configuration is valid")
         print("🌍 Environment: \(environment)")
-        print("🔑 Key type: \(StripeAPI.defaultPublishableKey.contains("pk_test_") ? "Test" : "Production")")
+        if let publishableKey = StripeAPI.defaultPublishableKey {
+            print("🔑 Key type: \(publishableKey.contains("pk_test_") ? "Test" : "Production")")
+        }
     }
 } 

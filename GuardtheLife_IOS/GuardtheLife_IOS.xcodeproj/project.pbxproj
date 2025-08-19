@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		92946FB72E5518CA0011262E /* Stripe in Frameworks */ = {isa = PBXBuildFile; productRef = 92946FB62E5518CA0011262E /* Stripe */; };
+		92946FB92E5518CA0011262E /* StripeApplePay in Frameworks */ = {isa = PBXBuildFile; productRef = 92946FB82E5518CA0011262E /* StripeApplePay */; };
+		92946FBB2E5518CA0011262E /* StripeCardScan in Frameworks */ = {isa = PBXBuildFile; productRef = 92946FBA2E5518CA0011262E /* StripeCardScan */; };
+		92946FBD2E5518CA0011262E /* StripeConnect in Frameworks */ = {isa = PBXBuildFile; productRef = 92946FBC2E5518CA0011262E /* StripeConnect */; };
+		92946FBF2E5518CA0011262E /* StripeFinancialConnections in Frameworks */ = {isa = PBXBuildFile; productRef = 92946FBE2E5518CA0011262E /* StripeFinancialConnections */; };
+		92946FC12E5518CA0011262E /* StripeIdentity in Frameworks */ = {isa = PBXBuildFile; productRef = 92946FC02E5518CA0011262E /* StripeIdentity */; };
+		92946FC32E5518CA0011262E /* StripePaymentSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 92946FC22E5518CA0011262E /* StripePaymentSheet */; };
+		92946FC52E5518CA0011262E /* StripePayments in Frameworks */ = {isa = PBXBuildFile; productRef = 92946FC42E5518CA0011262E /* StripePayments */; };
+		92946FC72E5518CA0011262E /* StripePaymentsUI in Frameworks */ = {isa = PBXBuildFile; productRef = 92946FC62E5518CA0011262E /* StripePaymentsUI */; };
 		92D78F3E2E545E00006355AE /* PaymentSheetExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D78F3D2E545E00006355AE /* PaymentSheetExample.swift */; };
 		92D78F402E545E22006355AE /* StripeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D78F3F2E545E22006355AE /* StripeConfig.swift */; };
 		92FCD7C32E53F1DE00C227DA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 92FCD7C22E53F1DE00C227DA /* Alamofire */; };
@@ -74,16 +83,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92946FBB2E5518CA0011262E /* StripeCardScan in Frameworks */,
 				A123456789012345678901EA /* Alamofire in Frameworks */,
 				92FCD7CE2E53F69300C227DA /* StripeApplePay in Frameworks */,
+				92946FC72E5518CA0011262E /* StripePaymentsUI in Frameworks */,
 				A123456789012345678901EB /* FirebaseAuth in Frameworks */,
 				A123456789012345678901EC /* FirebaseFirestore in Frameworks */,
 				A123456789012345678901ED /* FirebaseMessaging in Frameworks */,
 				92FCD7D42E53F69300C227DA /* StripeFinancialConnections in Frameworks */,
 				A123456789012345678901EE /* FirebaseAnalytics in Frameworks */,
+				92946FB92E5518CA0011262E /* StripeApplePay in Frameworks */,
 				92FCD7CC2E53F69300C227DA /* Stripe in Frameworks */,
+				92946FBD2E5518CA0011262E /* StripeConnect in Frameworks */,
 				92FCD7DA2E53F88D00C227DA /* Lottie in Frameworks */,
 				A123456789012345678901EF /* Stripe in Frameworks */,
+				92946FB72E5518CA0011262E /* Stripe in Frameworks */,
 				A123456789012345678901F0 /* SocketIO in Frameworks */,
 				A123456789012345678901F1 /* Lottie in Frameworks */,
 				92FCD7E22E53FA4800C227DA /* Kingfisher in Frameworks */,
@@ -92,10 +106,14 @@
 				92FCD7D72E53F86200C227DA /* SocketIO in Frameworks */,
 				92FCD7C52E53F1DE00C227DA /* AlamofireDynamic in Frameworks */,
 				A123456789012345678901F2 /* SwiftyJSON in Frameworks */,
+				92946FC52E5518CA0011262E /* StripePayments in Frameworks */,
+				92946FC32E5518CA0011262E /* StripePaymentSheet in Frameworks */,
 				92FCD7DC2E53F88D00C227DA /* Lottie-Dynamic in Frameworks */,
+				92946FBF2E5518CA0011262E /* StripeFinancialConnections in Frameworks */,
 				92FCD7C32E53F1DE00C227DA /* Alamofire in Frameworks */,
 				A123456789012345678901F3 /* KeychainAccess in Frameworks */,
 				92FCD7D02E53F69300C227DA /* StripeCardScan in Frameworks */,
+				92946FC12E5518CA0011262E /* StripeIdentity in Frameworks */,
 				A123456789012345678901F4 /* Kingfisher in Frameworks */,
 				92FCD7DF2E53F92700C227DA /* KeychainAccess in Frameworks */,
 			);
@@ -589,6 +607,51 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		92946FB62E5518CA0011262E /* Stripe */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7CA2E53F69300C227DA /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = Stripe;
+		};
+		92946FB82E5518CA0011262E /* StripeApplePay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7CA2E53F69300C227DA /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeApplePay;
+		};
+		92946FBA2E5518CA0011262E /* StripeCardScan */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7CA2E53F69300C227DA /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeCardScan;
+		};
+		92946FBC2E5518CA0011262E /* StripeConnect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7CA2E53F69300C227DA /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeConnect;
+		};
+		92946FBE2E5518CA0011262E /* StripeFinancialConnections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7CA2E53F69300C227DA /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeFinancialConnections;
+		};
+		92946FC02E5518CA0011262E /* StripeIdentity */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7CA2E53F69300C227DA /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripeIdentity;
+		};
+		92946FC22E5518CA0011262E /* StripePaymentSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7CA2E53F69300C227DA /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripePaymentSheet;
+		};
+		92946FC42E5518CA0011262E /* StripePayments */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7CA2E53F69300C227DA /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripePayments;
+		};
+		92946FC62E5518CA0011262E /* StripePaymentsUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92FCD7CA2E53F69300C227DA /* XCRemoteSwiftPackageReference "stripe-ios" */;
+			productName = StripePaymentsUI;
+		};
 		92FCD7C22E53F1DE00C227DA /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 92FCD7C12E53F1DE00C227DA /* XCRemoteSwiftPackageReference "Alamofire" */;

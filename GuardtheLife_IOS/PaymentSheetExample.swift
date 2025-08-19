@@ -1,5 +1,6 @@
 import SwiftUI
 import Stripe
+import StripePaymentSheet
 
 struct PaymentSheetExample: View {
     @State private var isPresentingPaymentSheet = false
@@ -12,12 +13,56 @@ struct PaymentSheetExample: View {
     let booking = Booking(
         id: "booking_123",
         clientId: "client_456",
+        client: User(
+            id: "client_456",
+            email: "client@example.com",
+            firstName: "John",
+            lastName: "Doe",
+            role: .client,
+            phoneNumber: nil,
+            profileImage: nil,
+            isVerified: true,
+            createdAt: Date(),
+            updatedAt: Date()
+        ),
         lifeguardId: "lifeguard_789",
+        lifeguard: Lifeguard(
+            id: "lifeguard_789",
+            firstName: "Jane",
+            lastName: "Smith",
+            email: "jane@example.com",
+            phoneNumber: "+1234567890",
+            isVerified: true,
+            isAvailable: true,
+            rating: 4.8,
+            totalBookings: 100,
+            specializations: ["pool_supervision"],
+            hourlyRate: 75.0,
+            profileImageURL: nil,
+            location: nil,
+            bio: nil,
+            certifications: [],
+            experience: 3,
+            createdAt: Date()
+        ),
+        serviceType: .poolSupervision,
+        status: .pending,
         startTime: Date(),
         endTime: Date().addingTimeInterval(3600),
-        location: "Beach Location",
+        duration: 60,
+        location: Location(
+            latitude: 37.7749,
+            longitude: -122.4194,
+            address: "Beach Location",
+            city: "San Francisco",
+            state: "CA",
+            country: "USA"
+        ),
+        specialInstructions: nil,
         totalAmount: 75.00,
-        status: "pending"
+        paymentStatus: .pending,
+        createdAt: Date(),
+        updatedAt: Date()
     )
     
     var body: some View {
@@ -31,7 +76,7 @@ struct PaymentSheetExample: View {
                 HStack {
                     Text("Location:")
                     Spacer()
-                    Text(booking.location)
+                    Text(booking.location.formattedAddress)
                 }
                 
                 HStack {
@@ -121,7 +166,7 @@ struct PaymentSheetExample: View {
                 "metadata": [
                     "clientId": booking.clientId,
                     "lifeguardId": booking.lifeguardId,
-                    "location": booking.location
+                    "location": booking.location.formattedAddress
                 ]
             ]
             
@@ -159,7 +204,8 @@ struct PaymentSheetExample: View {
             
             // Create and present PaymentSheet
             await MainActor.run {
-                paymentSheet = PaymentSheet(paymentIntentClientSecret: clientSecret)
+                let configuration = PaymentSheet.Configuration()
+                paymentSheet = PaymentSheet(paymentIntentClientSecret: clientSecret, configuration: configuration)
                 isPresentingPaymentSheet = true
             }
             
@@ -173,6 +219,24 @@ struct PaymentSheetExample: View {
             isLoading = false
         }
     }
+    
+    // Payment errors - defined inside the struct for proper scope
+    enum PaymentError: LocalizedError {
+        case invalidURL
+        case serverError
+        case invalidResponse
+        
+        var errorDescription: String? {
+            switch self {
+            case .invalidURL:
+                return "Invalid server URL"
+            case .serverError:
+                return "Server error occurred"
+            case .invalidResponse:
+                return "Invalid response from server"
+            }
+        }
+    }
 }
 
 // PaymentSheet presentation
@@ -180,41 +244,29 @@ extension PaymentSheetExample {
     func presentPaymentSheet() {
         guard let paymentSheet = paymentSheet else { return }
         
-        paymentSheet.present(from: UIApplication.shared.windows.first?.rootViewController ?? UIViewController()) { result in
-            switch result {
-            case .completed:
-                successMessage = "Payment completed successfully!"
-                errorMessage = nil
-                
-            case .canceled:
-                errorMessage = "Payment was cancelled"
-                successMessage = nil
-                
-            case .failed(let error):
-                errorMessage = "Payment failed: \(error.localizedDescription)"
-                successMessage = nil
+        // Get the current window scene for proper presentation
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            paymentSheet.present(from: window.rootViewController ?? UIViewController()) { result in
+                switch result {
+                case .completed:
+                    successMessage = "Payment completed successfully!"
+                    errorMessage = nil
+                    
+                case .canceled:
+                    errorMessage = "Payment was cancelled"
+                    successMessage = nil
+                    
+                case .failed(let error):
+                    errorMessage = "Payment failed: \(error.localizedDescription)"
+                    successMessage = nil
+                }
             }
         }
     }
 }
 
-// Payment errors
-enum PaymentError: LocalizedError {
-    case invalidURL
-    case serverError
-    case invalidResponse
-    
-    var errorDescription: String? {
-        switch self {
-        case .invalidURL:
-            return "Invalid server URL"
-        case .serverError:
-            return "Server error occurred"
-        case .invalidResponse:
-            return "Invalid response from server"
-        }
-    }
-}
+
 
 // Preview
 struct PaymentSheetExample_Previews: PreviewProvider {

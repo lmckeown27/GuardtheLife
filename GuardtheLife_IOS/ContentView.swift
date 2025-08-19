@@ -1,4 +1,6 @@
 import SwiftUI
+import Stripe
+import StripePaymentSheet
 
 struct ContentView: View {
     @StateObject private var authService = AuthService.shared
@@ -294,15 +296,18 @@ struct BookingView: View {
             Booking(
                 id: "booking_1",
                 clientId: "client_1",
-                client: User(id: "client_1", email: "user@example.com", firstName: "John", lastName: "Doe", role: .client, phoneNumber: nil, isVerified: true, createdAt: Date(), profileImageURL: nil),
+                client: User(id: "client_1", email: "user@example.com", firstName: "John", lastName: "Doe", role: .client, phoneNumber: nil, profileImage: nil, isVerified: true, createdAt: Date(), updatedAt: Date()),
                 lifeguardId: "lg_1",
-                lifeguard: Lifeguard(id: "lg_1", firstName: "Jane", lastName: "Smith", email: "jane@example.com", phoneNumber: "+1234567890", isVerified: true, isAvailable: true, rating: 4.8, totalBookings: 150, specializations: [.poolSupervision], hourlyRate: 75.0, profileImageURL: nil, location: nil, bio: nil, createdAt: Date()),
+                lifeguard: Lifeguard(id: "lg_1", firstName: "Jane", lastName: "Smith", email: "jane@example.com", phoneNumber: "+1234567890", isVerified: true, isAvailable: true, rating: 4.8, totalBookings: 150, specializations: ["pool_supervision"], hourlyRate: 75.0, profileImageURL: nil, location: nil as Location?, bio: nil, certifications: [
+                    Certification(id: "cert_1", type: .cprAED, name: "CPR/AED for Professional Rescuers", issuingOrganization: "American Red Cross", certificateNumber: "ARC-2024-001234", issueDate: Date().addingTimeInterval(-365*24*3600), expiryDate: Date().addingTimeInterval(365*24*3600), isActive: true, verificationStatus: .verified, verificationDate: Date().addingTimeInterval(-30*24*3600), verifiedBy: "ARC Verification System"),
+                    Certification(id: "cert_2", type: .lifeguarding, name: "Lifeguarding", issuingOrganization: "American Red Cross", certificateNumber: "ARC-2024-005678", issueDate: Date().addingTimeInterval(-365*24*3600), expiryDate: Date().addingTimeInterval(365*24*3600), isActive: true, verificationStatus: .verified, verificationDate: Date().addingTimeInterval(-30*24*3600), verifiedBy: "ARC Verification System")
+                ], experience: 5, createdAt: Date()),
                 serviceType: .poolSupervision,
                 status: .confirmed,
                 startTime: Date().addingTimeInterval(86400), // Tomorrow
                 endTime: Date().addingTimeInterval(90000), // Tomorrow + 1 hour
                 duration: 60,
-                location: LocationModel(latitude: 37.7749, longitude: -122.4194, address: "Pool Area, Hotel XYZ"),
+                location: Location(latitude: 37.7749, longitude: -122.4194, address: "Pool Area, Hotel XYZ", city: "San Francisco", state: "CA", country: "USA"),
                 specialInstructions: "Adult swimming supervision needed",
                 totalAmount: 80.0,
                 paymentStatus: .completed,
@@ -514,7 +519,7 @@ struct BookingFlowView: View {
     @State private var selectedDuration: Int = 60 // minutes
     @State private var selectedServiceType: ServiceType = .poolSupervision
     @State private var specialInstructions = ""
-    @State private var location = LocationModel(latitude: 37.7749, longitude: -122.4194, address: "Pool Area")
+    @State private var location = Location(latitude: 37.7749, longitude: -122.4194, address: "Pool Area", city: "San Francisco", state: "CA", country: "USA")
     @State private var isProcessing = false
     @State private var showingPaymentSheet = false
     @State private var paymentClientSecret: String?
@@ -854,9 +859,9 @@ struct BookingFlowView: View {
         return Booking(
             id: UUID().uuidString,
             clientId: "client_1", // This should come from user authentication
-            client: User(id: "client_1", email: "user@example.com", firstName: "John", lastName: "Doe", role: .client, phoneNumber: nil, isVerified: true, createdAt: Date(), profileImageURL: nil),
+            client: User(id: "client_1", email: "user@example.com", firstName: "John", lastName: "Doe", role: .client, phoneNumber: nil, profileImage: nil, isVerified: true, createdAt: Date(), updatedAt: Date()),
             lifeguardId: lifeguardId,
-            lifeguard: Lifeguard(id: lifeguardId, firstName: lifeguardName, lastName: "", email: "", phoneNumber: "", isVerified: true, isAvailable: true, rating: 5.0, totalBookings: 100, specializations: [selectedServiceType], hourlyRate: 75.0, profileImageURL: nil, location: nil, bio: nil, createdAt: Date()),
+            lifeguard: Lifeguard(id: lifeguardId, firstName: lifeguardName, lastName: "", email: "", phoneNumber: "", isVerified: true, isAvailable: true, rating: 5.0, totalBookings: 100, specializations: [selectedServiceType.rawValue], hourlyRate: 75.0, profileImageURL: nil, location: nil, bio: nil, certifications: [], experience: 3, createdAt: Date()),
             serviceType: selectedServiceType,
             status: .pending,
             startTime: selectedDate,
@@ -897,6 +902,8 @@ struct BookingFlowView: View {
     }
 }
 
+
+
 // MARK: - Supporting Views
 
 struct DetailRow: View {
@@ -919,11 +926,22 @@ struct PaymentSheetView: UIViewControllerRepresentable {
     let onResult: (PaymentSheetResult) -> Void
     
     func makeUIViewController(context: Context) -> UIViewController {
-        let paymentSheet = PaymentSheet(paymentIntentClientSecret: clientSecret)
+        let configuration = PaymentSheet.Configuration()
+        let paymentSheet = PaymentSheet(paymentIntentClientSecret: clientSecret, configuration: configuration)
         let viewController = UIViewController()
         
         paymentSheet.present(from: viewController) { result in
-            onResult(result)
+            // Convert Stripe's PaymentSheetResult to our custom PaymentSheetResult
+            let convertedResult: PaymentSheetResult
+            switch result {
+            case .completed:
+                convertedResult = .completed
+            case .canceled:
+                convertedResult = .canceled
+            case .failed(let error):
+                convertedResult = .failed(error)
+            }
+            onResult(convertedResult)
         }
         
         return viewController
