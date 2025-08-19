@@ -46,6 +46,10 @@ struct ContentView: View {
 }
 
 struct HomeView: View {
+    @StateObject private var locationService = LocationService.shared
+    @StateObject private var socketService = SocketService.shared
+    @StateObject private var notificationService = NotificationService.shared
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
