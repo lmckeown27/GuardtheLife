@@ -3,14 +3,14 @@ import Foundation
 struct User: Codable, Identifiable {
     let id: String
     let email: String
-    let firstName: String
-    let lastName: String
+    var firstName: String
+    var lastName: String
     let role: UserRole
-    let phoneNumber: String?
-    let profileImage: String?
+    var phoneNumber: String?
+    var profileImage: String?
     let isVerified: Bool
     let createdAt: Date
-    let updatedAt: Date
+    var updatedAt: Date
     
     var fullName: String {
         "\(firstName) \(lastName)"

@@ -4,6 +4,7 @@ import FirebaseFirestore
 import Combine
 import KeychainAccess
 
+@MainActor
 class AuthService: ObservableObject {
     static let shared = AuthService()
     
@@ -22,9 +23,11 @@ class AuthService: ObservableObject {
     }
     
     // MARK: - Firebase Auth State Listener
+    private var authStateListener: AuthStateDidChangeListenerHandle?
+    
     private func setupAuthStateListener() {
-        Auth.auth().addStateDidChangeListener { [weak self] _, user in
-            DispatchQueue.main.async {
+        let listener = Auth.auth().addStateDidChangeListener { [weak self] _, user in
+            Task { @MainActor in
                 if let user = user {
                     self?.handleFirebaseUser(user)
                 } else {
@@ -32,27 +35,27 @@ class AuthService: ObservableObject {
                 }
             }
         }
+        self.authStateListener = listener
     }
     
     private func handleFirebaseUser(_ firebaseUser: FirebaseAuth.User) {
         // Get additional user data from Firestore
         let db = Firestore.firestore()
-        db.collection("users").document(firebaseUser.uid).getDocument { [weak self] document, error in
-            DispatchQueue.main.async {
-                if let document = document, document.exists {
-                    do {
-                        let userData = try document.data(as: User.self)
-                        self?.currentUser = userData
-                        self?.isAuthenticated = true
-                        self?.storeCredentials(firebaseUser: firebaseUser, userData: userData)
-                    } catch {
-                        print("Error decoding user data: \(error)")
-                        self?.errorMessage = "Failed to load user profile"
-                    }
+        Task {
+            do {
+                let document = try await db.collection("users").document(firebaseUser.uid).getDocument()
+                if document.exists {
+                    let userData = try document.data(as: User.self)
+                    self.currentUser = userData
+                    self.isAuthenticated = true
+                    self.storeCredentials(firebaseUser: firebaseUser, userData: userData)
                 } else {
                     print("User document does not exist")
-                    self?.errorMessage = "User profile not found"
+                    self.errorMessage = "User profile not found"
                 }
+            } catch {
+                print("Error decoding user data: \(error)")
+                self.errorMessage = "Failed to load user profile"
             }
         }
     }
@@ -66,14 +69,12 @@ class AuthService: ObservableObject {
     
     // MARK: - Authentication Methods
     func signIn(email: String, password: String) async {
-        DispatchQueue.main.async {
-            self.isLoading = true
-            self.errorMessage = nil
-        }
+        self.isLoading = true
+        self.errorMessage = nil
         
         do {
             // First authenticate with Firebase
-            let result = try await Auth.auth().signIn(withEmail: email, password: password)
+            _ = try await Auth.auth().signIn(withEmail: email, password: password)
             
             // Then get user data from your backend
             let loginResponse = try await apiService.login(email: email, password: password)
@@ -82,32 +83,26 @@ class AuthService: ObservableObject {
             apiService.setAuthToken(loginResponse.token)
             
             // Update the current user
-            DispatchQueue.main.async {
-                self.currentUser = loginResponse.user
-                self.isAuthenticated = true
-                self.isLoading = false
-            }
+            self.currentUser = loginResponse.user
+            self.isAuthenticated = true
+            self.isLoading = false
             
             // Connect to Socket.IO with authentication
             SocketService.shared.connectWithAuth(token: loginResponse.token)
             
         } catch {
-            DispatchQueue.main.async {
-                self.errorMessage = error.localizedDescription
-                self.isLoading = false
-            }
+            self.errorMessage = error.localizedDescription
+            self.isLoading = false
         }
     }
     
     func signUp(email: String, password: String, firstName: String, lastName: String, role: UserRole, phoneNumber: String?) async {
-        DispatchQueue.main.async {
-            self.isLoading = true
-            self.errorMessage = nil
-        }
+        self.isLoading = true
+        self.errorMessage = nil
         
         do {
             // First create Firebase user
-            let result = try await Auth.auth().createUser(withEmail: email, password: password)
+            _ = try await Auth.auth().createUser(withEmail: email, password: password)
             
             // Then register with your backend
             let registerRequest = RegisterRequest(
@@ -125,20 +120,16 @@ class AuthService: ObservableObject {
             apiService.setAuthToken(loginResponse.token)
             
             // Update the current user
-            DispatchQueue.main.async {
-                self.currentUser = loginResponse.user
-                self.isAuthenticated = true
-                self.isLoading = false
-            }
+            self.currentUser = loginResponse.user
+            self.isAuthenticated = true
+            self.isLoading = false
             
             // Connect to Socket.IO with authentication
             SocketService.shared.connectWithAuth(token: loginResponse.token)
             
         } catch {
-            DispatchQueue.main.async {
-                self.errorMessage = error.localizedDescription
-                self.isLoading = false
-            }
+            self.errorMessage = error.localizedDescription
+            self.isLoading = false
         }
     }
     
@@ -152,21 +143,15 @@ class AuthService: ObservableObject {
     }
     
     func resetPassword(email: String) async {
-        DispatchQueue.main.async {
-            self.isLoading = true
-            self.errorMessage = nil
-        }
+        self.isLoading = true
+        self.errorMessage = nil
         
         do {
             try await Auth.auth().sendPasswordReset(withEmail: email)
-            DispatchQueue.main.async {
-                self.isLoading = false
-            }
+            self.isLoading = false
         } catch {
-            DispatchQueue.main.async {
-                self.errorMessage = error.localizedDescription
-                self.isLoading = false
-            }
+            self.errorMessage = error.localizedDescription
+            self.isLoading = false
         }
     }
     
@@ -200,7 +185,7 @@ class AuthService: ObservableObject {
     func updateProfile(firstName: String, lastName: String, phoneNumber: String?) async {
         guard let userId = currentUser?.id else { return }
         
-        DispatchQueue.main.async {
+        await MainActor.run {
             self.isLoading = true
             self.errorMessage = nil
         }
@@ -208,15 +193,22 @@ class AuthService: ObservableObject {
         do {
             // Update in Firestore
             let db = Firestore.firestore()
-            try await db.collection("users").document(userId).updateData([
+            var updateData: [String: Any] = [
                 "firstName": firstName,
                 "lastName": lastName,
-                "phoneNumber": phoneNumber ?? "",
                 "updatedAt": Date()
-            ])
+            ]
+            
+            if let phone = phoneNumber {
+                updateData["phoneNumber"] = phone
+            } else {
+                updateData["phoneNumber"] = ""
+            }
+            
+            try await db.collection("users").document(userId).updateData(updateData)
             
             // Update local user object
-            DispatchQueue.main.async {
+            await MainActor.run {
                 self.currentUser?.firstName = firstName
                 self.currentUser?.lastName = lastName
                 self.currentUser?.phoneNumber = phoneNumber
@@ -224,7 +216,7 @@ class AuthService: ObservableObject {
             }
             
         } catch {
-            DispatchQueue.main.async {
+            await MainActor.run {
                 self.errorMessage = error.localizedDescription
                 self.isLoading = false
             }
@@ -234,7 +226,7 @@ class AuthService: ObservableObject {
     func deleteAccount() async {
         guard let user = Auth.auth().currentUser else { return }
         
-        DispatchQueue.main.async {
+        await MainActor.run {
             self.isLoading = true
             self.errorMessage = nil
         }
@@ -250,7 +242,7 @@ class AuthService: ObservableObject {
             // handleSignOut() will be called by the auth state listener
             
         } catch {
-            DispatchQueue.main.async {
+            await MainActor.run {
                 self.errorMessage = error.localizedDescription
                 self.isLoading = false
             }
@@ -277,7 +269,24 @@ class AuthService: ObservableObject {
     }
     
     // MARK: - Cleanup
+    func cleanup() {
+        if let listener = authStateListener {
+            Auth.auth().removeStateDidChangeListener(listener)
+            authStateListener = nil
+        }
+        cancellables.removeAll()
+    }
+    
+    private func removeAuthStateListener() {
+        if let listener = authStateListener {
+            Auth.auth().removeStateDidChangeListener(listener)
+            authStateListener = nil
+        }
+    }
+    
     deinit {
+        // Note: Firebase listener cleanup will happen automatically when the app terminates
+        // We can't safely call main actor methods from deinit in Swift 6
         cancellables.removeAll()
     }
 } 
